@@ -1,0 +1,155 @@
+
+//全局变量
+$screen_breakpoint: 768px;
+$width_on_lg: <%= accurateVW? vw : 320 %>px;
+$dialog_width: 70%;
+$dialog_width_: .7;
+$ff: "微软雅黑", "Microsoft YaHei", "Helvetica Neue", "Helvetica", Arial, serif;
+
+//全局工具mixin
+
+@mixin clearfix {
+  &:after, &:before {
+    content: "";
+    display: block;
+    visibility: hidden;
+    height: 0;
+    clear: both;  
+  }
+}
+
+@mixin absoluteCenter($position: absolute) {
+  position: $position;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin icon($pos:'before', $w:1.5em, $h:1.5em, $url: "") {
+  &:#{$pos} {
+      content: " ";
+      display: inline-block;
+      width: $w;
+      height: $h;
+      background: url($url) center no-repeat;
+      background-size: contain;
+      @content;
+    }
+}
+
+@mixin heightRelativeToWidth($percentage: 100%, $pos: 'after') {
+  &:#{$pos} {
+    content: " ";
+    display: block;
+    height: 0;
+    padding-bottom: $percentage;
+    @content;
+  }
+}
+
+@mixin HRWImage($url, $percentage) {
+  background: url($url) no-repeat;
+  background-size: 100%;
+  @include heightRelativeToWidth($percentage) {
+    @content;
+  }
+}
+
+@mixin scrollableY($height) {
+  height: $height;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@mixin ellipsis() {
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin textWithBg($bg) {
+  background: $bg;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@mixin avatar($d) {
+  width: $d;
+  border-radius: 50%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  @include heightRelativeToWidth(100%);
+}
+
+@mixin circleBadge($d) {
+  display: block;
+  border-radius: 50%;
+  width: $d;
+  @if is-percentage($d) {
+    @include heightRelativeToWidth(100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  } @else {
+    height: $d;
+    line-height: $d;
+    text-align: center;
+  }
+}
+
+
+/* copy */
+////
+// A collection of function for advanced type checking
+// @author Hugo Giraudel
+////
+
+@function is-number($value) {
+  @return type-of($value) == 'number';
+}
+ 
+@function is-time($value) {
+  @return is-number($value) and index('ms' 's', unit($value)) != null;
+}
+ 
+@function is-duration($value) {
+  @return is-time($value);
+}
+ 
+@function is-angle($value) {
+  @return is-number($value) and index('deg' 'rad' 'grad' 'turn', unit($value)) != null;
+}
+ 
+@function is-frequency($value) {
+  @return is-number($value) and index('Hz' 'kHz', unit($value)) != null;
+}
+ 
+@function is-integer($value) {
+  @return is-number($value) and round($value) == $value;
+}
+ 
+@function is-relative-length($value) {
+  @return is-number($value) and index('em' 'ex' 'ch' 'rem' 'vw' 'vh' 'vmin' 'vmax', unit($value)) != null;
+}
+ 
+@function is-absolute-length($value) {
+  @return is-number($value) and index('cm' 'mm' 'in' 'px' 'pt' 'pc', unit($value)) != null;
+}
+ 
+@function is-percentage($value) {
+  @return is-number($value) and unit($value) == '%';
+}
+ 
+@function is-length($value) {
+  @return is-relative-length($value) or is-absolute-length($value);
+}
+ 
+@function is-resolution($value) {
+  @return is-number($value) and index('dpi' 'dpcm' 'dppx', unit($value)) != null;
+}
+ 
+@function is-position($value) {
+  @return is-length($value) or is-percentage($value) or index('top' 'right' 'bottom' 'left' 'center', $value) != null;
+}

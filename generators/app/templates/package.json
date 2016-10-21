@@ -5,10 +5,6 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "publish": "npm run login",
-    "prelogin": "npm config set registry http://registry.npmjs.org",
-    "login": "npm adduser",
-    "postpublish": "npm config set registry http://registry.cnpmjs.org",
     "install-g": "npm install -g browser-sync postcss-cli ",
     "bs-start": "browser-sync start --server \"dist\" --index \"index.html\" -f \"dist\" ",
     "start": "parallelshell \"npm run bs-start\" \"npm run css\" ",

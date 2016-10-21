@@ -119,7 +119,7 @@ module.exports = generators.Base.extend({
     this.spawnCommandSync("npm", ["init"]);
     this.spawnCommandSync("npm", ["install"]);
     this.log("Let's get the party started!");
-    this.spawnCommandSync("npm start");
+    this.spawnCommandSync("npm", ["start"]);
   },
 
   end: function () {

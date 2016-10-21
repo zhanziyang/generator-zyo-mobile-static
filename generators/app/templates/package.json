@@ -8,7 +8,7 @@
     "install-g": "npm install -g browser-sync postcss-cli ",
     "bs-start": "browser-sync start --server \"dist\" --index \"index.html\" -f \"dist\" ",
     "start": "parallelshell \"npm run bs-start\" \"npm run css\" ",
-    "css:compile": "postcss --use stylelint --use postcss-reporter --use postcss-import --use precss --use postcss-cssnext --use postcss-func --use postcss-sorting -c cssconfig.js --watch --map -o dist/css/style.css src/css/main.css",
+    "css:compile": "postcss --use stylelint --use postcss-reporter --use postcss-import --use precss --use postcss-cssnext --use postcss-computed --use postcss-sorting -c cssconfig.js --watch --map -o dist/css/style.css src/css/main.css",
     "css:min": "postcss --use cssnano -c cssconfig.js -o dist/css/style.min.css dist/css/style.css",
     "css": "npm run css:compile"
   },
@@ -19,6 +19,7 @@
     "cssnano": "^3.7.7",
     "parallelshell": "^2.0.0",
     "postcss-cli": "^2.6.0",
+    "postcss-computed": "^1.0.0",
     "postcss-cssnext": "^2.8.0",
     "postcss-import": "^8.1.2",
     "postcss-reporter": "^1.4.1",

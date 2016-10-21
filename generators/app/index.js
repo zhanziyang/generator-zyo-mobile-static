@@ -3,21 +3,21 @@ var initialPropmts = require("./initial_prompt");
 var mkdirp = require("mkdirp");
 var _ = require("underscore");
 
-var copyTpl = function(tpl, dest, vars) {
+var copyTpl = function (tpl, dest, vars) {
   var map = {};
-  vars.forEach(function(v) {
+  vars.forEach(function (v) {
     map[v] = this.answers[v];
   }.bind(this));
 
   this.fs.copyTpl(this.templatePath(tpl), this.destinationPath(dest), map);
 };
 
-var copyFiles = function(srcs, dests) {
-  if ( !(_.isArray(srcs) && _.isArray(dests)) && !(_.isString(srcs) && _.isString(dests)) ) {
+var copyFiles = function (srcs, dests) {
+  if (!(_.isArray(srcs) && _.isArray(dests)) && !(_.isString(srcs) && _.isString(dests))) {
     this.env.error("Argument type is wrong");
     return;
   }
-  if( _.isString(srcs) && _.isString(dests) ) {
+  if (_.isString(srcs) && _.isString(dests)) {
     srcs = [srcs];
     dests = [dests];
   }
@@ -30,40 +30,40 @@ var copyFiles = function(srcs, dests) {
   }
 };
 
-var mkdirs = function(dirs) {
+var mkdirs = function (dirs) {
   for (var i = 0; i < dirs.length; i++) {
     mkdirp.sync(this.destinationPath(dirs[i]));
   }
 };
 
 module.exports = generators.Base.extend({
-  constructor: function() {
-    generators.Base.apply(this, arguments);  
+  constructor: function () {
+    generators.Base.apply(this, arguments);
   },
 
-  initializing: function() {
+  initializing: function () {
     this.log("OK ladies now let's get in Formation...");
     this.log("initializing...in " + this.destinationRoot());
     this.log("template in " + this.sourceRoot());
   },
 
-  prompting: function() {
+  prompting: function () {
     var done = this.async();
-    this.prompt(initialPropmts, function(answers) {
+    this.prompt(initialPropmts, function (answers) {
       this.answers = answers;
       done();
     }.bind(this));
   },
 
-  configuring: function() {
+  configuring: function () {
     this.log("configuring...");
   },
 
-  default: function() {
+  default: function () {
 
   },
 
-  writing: function() {
+  writing: function () {
     //创建基本目录结构
     var dirs = [
       "dist",
@@ -71,28 +71,29 @@ module.exports = generators.Base.extend({
       "dist/css",
       "dist/images",
       "dist/js",
-      "src/images",
-      "src/sass"
+      "src/css"
     ];
-    mkdirs.call(this,dirs);
-    
+    mkdirs.call(this, dirs);
+
     //纯复制
     var pureCopies = {
       srcs: [
-        "dist/css/reset.css",
+        "dist/css/normalize.css",
         "dist/js/app.js",
-        "src/sass/!(utils.scss)",
+        "src/css/!(util.css)",
         ".eslintrc.json",
-        "gulpfile.js",
+        ".stylelintrc.json",
+        "cssconfig.js",
         "jsconfig.json",
         "package.json"
       ],
       dests: [
         "dist/css/reset.css",
         "dist/js/app.js",
-        "src/sass",
+        "src/css",
         ".eslintrc.json",
-        "gulpfile.js",
+        ".stylelintrc.json",
+        "cssconfig.js",
         "jsconfig.json",
         "package.json"
       ]
@@ -105,20 +106,20 @@ module.exports = generators.Base.extend({
       pureCopies.srcs.push("dist/js/inobounce.js");
       pureCopies.dests.push("dist/js/inobounce.js");
     }
-    copyFiles.call(this,pureCopies.srcs,pureCopies.dests);
+    copyFiles.call(this, pureCopies.srcs, pureCopies.dests);
 
     //复制模板
-    copyTpl.call(this,"dist/index.html","dist/index.html",["title", "$", "accurateVW", "vw", "noBounce"]);
-    copyTpl.call(this,"src/sass/utils.scss","src/sass/utils.scss",["vw", "accurateVW"]);
+    copyTpl.call(this, "dist/index.html", "dist/index.html", ["title", "$", "accurateVW", "vw", "noBounce"]);
+    copyTpl.call(this, "src/css/util.css", "src/css/util.css", ["vw", "accurateVW"]);
   },
 
   install: function () {
     var SBP = this.answers.SASS_BINARY_PATH;
     process.env.SASS_BINARY_PATH = SBP;
-    this.spawnCommandSync("npm",["init"]);
-    this.spawnCommandSync("npm",["install"]);
+    this.spawnCommandSync("npm", ["init"]);
+    this.spawnCommandSync("npm", ["install"]);
     this.log("Let's get the party started!");
-    this.spawnCommandSync("gulp");
+    this.spawnCommandSync("npm start");
   },
 
   end: function () {

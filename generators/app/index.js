@@ -88,7 +88,7 @@ module.exports = generators.Base.extend({
         "package.json"
       ],
       dests: [
-        "dist/css/reset.css",
+        "dist/css/normalize.css",
         "dist/js/app.js",
         "src/css",
         ".eslintrc.json",

@@ -4,23 +4,31 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "publish": "npm run login",
+    "prelogin": "npm config set registry http://registry.npmjs.org",
+    "login": "npm adduser",
+    "postpublish": "npm config set registry http://registry.cnpmjs.org",
+    "install-g": "npm install -g browser-sync postcss-cli ",
+    "bs-start": "browser-sync start --server \"dist\" --index \"index.html\" -f \"dist\" ",
+    "start": "parallelshell \"npm run bs-start\" \"npm run css\" ",
+    "css:compile": "postcss --use stylelint --use postcss-reporter --use postcss-import --use precss --use postcss-cssnext --use postcss-func --use postcss-sorting -c cssconfig.js --watch --map -o dist/css/style.css src/css/main.css",
+    "css:min": "postcss --use cssnano -c cssconfig.js -o dist/css/style.min.css dist/css/style.css",
+    "css": "npm run css:compile"
   },
-  "author": "",
+  "author": "zhanziyang",
   "license": "ISC",
   "devDependencies": {
-    "browser-sync": "^2.14.0",
-    "glob": "^7.0.5",
-    "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^3.1.0",
-    "gulp-concat": "^2.6.0",
-    "gulp-imagemin": "^3.0.2",
-    "gulp-notify": "^2.2.0",
-    "gulp-plumber": "^1.1.0",
-    "gulp-sass": "^2.3.2",
-    "gulp-util": "^3.0.7",
-    "imagemin-pngquant": "^5.0.0",
-    "node-notifier": "^4.6.0",
-    "vinyl-ftp": "^0.5.0"
-  }
+    "browser-sync": "^2.17.3",
+    "cssnano": "^3.7.7",
+    "parallelshell": "^2.0.0",
+    "postcss-cli": "^2.6.0",
+    "postcss-cssnext": "^2.8.0",
+    "postcss-import": "^8.1.2",
+    "postcss-reporter": "^1.4.1",
+    "postcss-sorting": "^1.7.0",
+    "precss": "^1.4.0",
+    "stylelint": "^7.4.2"
+  },
+  "dependencies": {}
 }

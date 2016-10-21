@@ -1,0 +1,111 @@
+$screen_breakpoint: 768px;
+$width_on_lg: 750px;
+$dialog_width: 70%;
+$dialog_width_: .7;
+$ff: "微软雅黑", "Microsoft YaHei", "Helvetica Neue", "Helvetica", Arial, serif;
+
+/*全局工具define-mixin*/
+
+@define-mixin clearfix {
+  &:after, &:before {
+    content: "";
+    display: block;
+    visibility: hidden;
+    height: 0;
+    clear: left;
+  }
+}
+
+@define-mixin abso $x, $y, $w, $h {
+  position: absolute;
+  left: $x;
+  top: $y;
+  width: $w;
+  height: $h;
+}
+
+@func vrelative($l) {
+  @stmt var h=1336;
+  @stmt return ($l / 1336 * 100).toFixed(5) + "%";
+}
+
+@define-mixin absoluteCenter $position: absolute {
+  position: $position;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@define-mixin icon($pos:'before', $w:1.5em, $h:1.5em, $url: "") {
+  &:$(pos) {
+    content: " ";
+    display: inline-block;
+    width: $w;
+    height: $h;
+    background: url($url) center no-repeat;
+    background-size: contain;
+    @content;
+  }
+}
+
+@define-mixin heightRelativeToWidth($percentage: 100%, $pos: 'after') {
+  &:$(pos) {
+    content: " ";
+    display: block;
+    height: 0;
+    padding-bottom: $percentage;
+    @content;
+  }
+}
+
+@define-mixin HRWImage($url, $percentage) {
+  background: url($url) no-repeat;
+  background-size: 100%;
+  @include heightRelativeToWidth($percentage) {
+    @content;
+  }
+}
+
+@define-mixin scrollableY($height) {
+  height: $height;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@define-mixin ellipsis() {
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@define-mixin textWithBg($bg) {
+  background: $bg;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@define-mixin avatar($d) {
+  width: $d;
+  border-radius: 50%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  @include heightRelativeToWidth(100%);
+}
+
+@define-mixin circleBadge($d) {
+  display: block;
+  border-radius: 50%;
+  width: $d;
+  @if is-percentage($d) {
+    @include heightRelativeToWidth(100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  @else {
+    height: $d;
+    line-height: $d;
+    text-align: center;
+  }
+}

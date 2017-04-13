@@ -1,12 +1,10 @@
-$screen_breakpoint: 768px;
-$width_on_lg: 750px;
-$dialog_width: 70%;
-$dialog_width_: .7;
-$ff: "微软雅黑", "Microsoft YaHei", "Helvetica Neue", "Helvetica", Arial, serif;
+$screen_breakpoint = <%= vw %>px;
+$width_on_lg = <%= vw %>px;
+$dialog_width = 70%;
+$dialog_width_ = .7;
+$ff = "微软雅黑", "Microsoft YaHei", "Helvetica Neue", "Helvetica", Arial, serif;
 
-/*全局工具define-mixin*/
-
-@define-mixin clearfix {
+clearfix() {
   &:after, &:before {
     content: "";
     display: block;
@@ -16,7 +14,7 @@ $ff: "微软雅黑", "Microsoft YaHei", "Helvetica Neue", "Helvetica", Arial, se
   }
 }
 
-@define-mixin abso $x, $y, $w, $h {
+abso($x, $y, $w, $h) {
   position: absolute;
   left: $x;
   top: $y;
@@ -24,86 +22,95 @@ $ff: "微软雅黑", "Microsoft YaHei", "Helvetica Neue", "Helvetica", Arial, se
   height: $h;
 }
 
-@func vrelative($l) {
-  @stmt var h=1336;
-  @stmt return ($l / 1336 * 100).toFixed(5) + "%";
-}
-
-@define-mixin absoluteCenter $position: absolute {
+absCenter($position = absolute) {
   position: $position;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
-@define-mixin icon($pos:'before', $w:1.5em, $h:1.5em, $url: "") {
-  &:$(pos) {
+absCover($position = absolute) {
+  position: $position;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+icon($pos = 'before', $w = 1.5em, $h = 1.5em, $url = "") {
+  &:{$pos} {
     content: " ";
     display: inline-block;
     width: $w;
     height: $h;
     background: url($url) center no-repeat;
     background-size: contain;
-    @content;
+    {block}
   }
 }
 
-@define-mixin heightRelativeToWidth($percentage: 100%, $pos: 'after') {
-  &:$(pos) {
+relativeHeight($percentage = 100%, $pos = 'after') {
+  &:{$pos} {
     content: " ";
     display: block;
     height: 0;
     padding-bottom: $percentage;
-    @content;
+    {block}
   }
 }
 
-@define-mixin HRWImage($url, $percentage) {
+relativeHeightImage($url, $percentage) {
   background: url($url) no-repeat;
   background-size: 100%;
-  @include heightRelativeToWidth($percentage) {
-    @content;
+  relativeHeight($percentage) {
+    {block}
   }
 }
 
-@define-mixin scrollableY($height) {
+scrollableY($height) {
   height: $height;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
 
-@define-mixin ellipsis() {
+ellipsis($line = 1) {
   overflow-x: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
+  if $line > 1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  } else {
+    white-space: nowrap;
+  }
 }
 
-@define-mixin textWithBg($bg) {
+textWithBg($bg) {
   background: $bg;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-@define-mixin avatar($d) {
+avatar($d) {
   width: $d;
   border-radius: 50%;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  @include heightRelativeToWidth(100%);
+  relativeHeight(100%);
 }
 
-@define-mixin circleBadge($d) {
+circleBadge($d) {
   display: block;
   border-radius: 50%;
   width: $d;
-  @if is-percentage($d) {
-    @include heightRelativeToWidth(100%);
+  if is-percentage($d) {
+    relativeHeight(100%);
     display: flex;
     justify-content: center;
     align-items: center;
   }
-  @else {
+  else {
     height: $d;
     line-height: $d;
     text-align: center;

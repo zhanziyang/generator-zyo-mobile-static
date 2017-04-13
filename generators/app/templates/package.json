@@ -1,31 +1,21 @@
 {
   "name": "my-project",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "install-g": "npm install -g browser-sync postcss-cli ",
-    "bs-start": "browser-sync start --server \"dist\" --index \"index.html\" -f \"dist\" ",
     "start": "parallelshell \"npm run bs-start\" \"npm run css\" ",
-    "css:compile": "postcss --use stylelint --use postcss-reporter --use postcss-import --use precss --use postcss-cssnext --use postcss-computed --use postcss-sorting -c cssconfig.js --watch --map -o dist/css/style.css src/css/main.css",
-    "css:min": "postcss --use cssnano -c cssconfig.js -o dist/css/style.min.css dist/css/style.css",
-    "css": "npm run css:compile"
+    "bs-start": "browser-sync start --server \"dist\" --index \"index.html\" -f \"dist\" ",
+    "css": "stylus src/css/main.styl -o dist/css/style.css -w -u autoprefixer-stylus --with \"{ browsers: ['last 3 version', '> 1%', 'android >= 4.1', 'ios >= 6', 'ie >= 9', 'chrome >= 34', 'opera >= 12.1', 'ff >= 38', 'and_uc >= 10', 'ie_mob >= 10'] }\""
   },
   "author": "zhanziyang",
   "license": "ISC",
   "devDependencies": {
+    "autoprefixer-stylus": "^0.13.0",
     "browser-sync": "^2.17.3",
-    "cssnano": "^3.7.7",
     "parallelshell": "^2.0.0",
-    "postcss-cli": "^2.6.0",
-    "postcss-computed": "^1.0.0",
-    "postcss-cssnext": "^2.8.0",
-    "postcss-import": "^8.1.2",
-    "postcss-reporter": "^1.4.1",
-    "postcss-sorting": "^1.7.0",
-    "precss": "^1.4.0",
-    "stylelint": "^7.4.2"
+    "stylus": "^0.54.5"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "description": ""
 }

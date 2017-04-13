@@ -1,15 +1,16 @@
-@import "util.css";
+@require "util";
+
 html, body {
   height: 100%;
 }
 
 .page {
-  overflow: hidden;
+  overflow-x: hidden;
   min-height: 100%;
   color: black;
   background: #efefef;
   position: relative;
-  @mixin clearfix;
+  clearfix();
   @media screen and (min-width: $screen_breakpoint) {
     width: $width_on_lg;
     margin: 0 auto;
@@ -17,13 +18,9 @@ html, body {
 }
 
 .mask {
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  absCover(fixed)
   z-index: 1000;
   display: none;
-  position: absolute;
   background: rgba(0, 0, 0, .8);
   #loading {
     position: absolute;
@@ -36,6 +33,7 @@ html, body {
 .dialog {
   display: none;
   width: $dialog_width;
-  @mixin absoluteCenter;
+  absCenter();
   z-index: 1001;
 }
+

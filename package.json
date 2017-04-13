@@ -16,11 +16,5 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/zhanziyang/generator-zyo-mobile-static.git"
-  },
-  "scripts": {
-    "prepublish": "npm run login",
-    "prelogin": "npm config set registry http://registry.npmjs.org",
-    "login": "npm adduser",
-    "postpublish": "npm config set registry http://registry.cnpmjs.org"
   }
 }

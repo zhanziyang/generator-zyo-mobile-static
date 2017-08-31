@@ -1,23 +1,9 @@
 {
   "env": {
     "browser": true,
+    "node": true,
     "es6": true,
-    "jquery": true,
-    "commonjs": true
+    "jquery": true
   },
-  "extends": "eslint:recommended",
-  "installedESLint": true,
-  "rules": {
-    "indent": [
-      "error",
-      2
-    ],
-    "linebreak-style": [
-      "error",
-      "windows"
-    ]
-  },
-  "globals": {
-    "__dirname": true
-  }
+  "extends": "standard"
 }

@@ -1,36 +1,35 @@
-//弹出框
-function dialog(id,time,url) {
-  dialogClose()
-  
-  $(".mask").show();
-  $(id).show();
-  $("body").css({"overflow-y": "hidden"});
+
+// 跳转
+function forward (url) {
+  window.location.href = url
 }
 
-function dialogClose() {
-  $(".dialog").hide();
-  $(".mask").hide();
-  $("body").css({"overflow-y": "auto"});
-}
-function noClose(){
-  if(event.stopPropagation)
-     event.stopPropagation();
-  else
-     event.cancelBubble = true;
-}
+; (function () {
+  // rem base setting
+  var getDevicePixelRatio = function () {
+    var ratio = 1
+    // To account for zoom, change to use deviceXDPI instead of systemXDPI
+    if (window.screen.systemXDPI !== undefined && window.screen.logicalXDPI !== undefined && window.screen.systemXDPI > window.screen.logicalXDPI) {
+      // Only allow for values > 1
+      ratio = window.screen.systemXDPI / window.screen.logicalXDPI
+    } else if (window.devicePixelRatio !== undefined) {
+      ratio = window.devicePixelRatio
+    }
+    return ratio
+  }
+  var windowWidth = document.documentElement.clientWidth
+  var dpr = getDevicePixelRatio()
+  var scale = 1 / dpr
 
-//跳转
-function forward(url) {
-  window.location.href = url;
-}
+  if (windowWidth > 768) {
+    document.querySelector('.page').classList.add('lg-squeezed')
+    windowWidth = 320
+  }
+  document.documentElement.style.fontSize = windowWidth / 10 * dpr + 'px'
+  document.querySelector('meta[name=viewport]').setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no')
 
-//loading
-function loading() {
-  $("#loading").show();
-  $(".mask").show();
-}
-
-function stopLoading() {
-  $("#loading").hide();
-  $(".mask").hide();
-}
+  // fast click
+  if (FastClick) {
+    FastClick.attach(document.body)
+  }
+})()

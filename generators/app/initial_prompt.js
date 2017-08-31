@@ -1,32 +1,32 @@
 module.exports = [
   {
-    type: 'input',
-    name: 'title',
-    message: 'What is the title of the index.html file?',
-    default: '首页'
-  },
-  {
     type: 'confirm',
     name: '$',
-    message: 'Do you need JQuery?',
+    message: '你需要jQuery吗？',
     default: true
   },
   {
     type: 'confirm',
-    name: 'noBounce',
-    message: 'Do you want to prevent page bounce on IOS?',
-    default: false
-  },
-  {
-    type: 'confirm',
-    name: 'accurateVW',
-    message: 'Do you want to use a specific fixed viewport width?',
+    name: 'fastClick',
+    message: '要用fastclick.js来消除iOS上的点击延迟吗？',
     default: true
   },
   {
     type: 'input',
-    name: 'vw',
-    message: 'Set the viewport width if the last answer is true',
-    default: '640'
+    name: 'psWidth',
+    message: '设计稿的宽度是多少？',
+    default: '750'
+  },
+  {
+    type: 'input',
+    name: 'bgColor',
+    message: '默认页面背景色为',
+    default: '#f5f5f5'
+  },
+  {
+    type: 'input',
+    name: 'proxy',
+    message: '反向代理服务器的目标地址（可在./localserver.js中修改；输入0表示不使用反向代理）',
+    default: 'http://192.168.1.172:8096/'
   }
 ]

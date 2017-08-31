@@ -3,20 +3,13 @@
 
 <head>
 	<meta charset="utf-8">
-	<% if(accurateVW) { %>
-		<meta name="viewport" content="width=<%= vw %>, user-scalable=no, target-densitydpi=device-dpi">
-		<% } else { %>
-			<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-			<% } %>
-				<meta name="screen-orientation" content="portrait">
-				<meta name="x5-orientation" content="portrait">
-				<meta name="format-detection" content="telephone=no">
-				<meta name="apple-mobile-web-app-capable" content="yes" />
-				<title>
-					<%= title %>
-				</title>
-				<link rel="stylesheet" type="text/css" href="css/normalize.css">
-				<link rel="stylesheet" type="text/css" href="css/style.css?v=0.0.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<meta name="screen-orientation" content="portrait">
+	<meta name="x5-orientation" content="portrait">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<title>首页</title>
+	<link rel="stylesheet" type="text/css" href="css/base.css">
 </head>
 
 <body id="index">
@@ -24,13 +17,10 @@
 		<div class="box"></div>
 	</div>
 
-	<% if($) { %>
-		<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
-		<% } %>
-			<% if(noBounce) { %>
-				<script type="text/javascript" src="js/inobounce.js"></script>
-				<% } %>
-					<script type="text/javascript" src="js/app.js"></script>
+	
+	<% if ($) { %><script type="text/javascript" src="vendors/jquery-2.1.4.min.js"></script><% } %>
+	<% if (fastClick) { %><script type="text/javascript" src="vendors/fastclick.js"></script><% } %>
+	<script type="text/javascript" src="js/app.js"></script>
 </body>
 
 </html>

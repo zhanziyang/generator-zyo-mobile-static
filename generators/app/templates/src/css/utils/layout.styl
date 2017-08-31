@@ -1,0 +1,69 @@
+absCenter($position = absolute)
+  $w = @width
+  $h = @height
+  position: $position
+  top: 50%
+  left: 50%
+  if !$w and !$h
+    transform: translate(-50%, -50%)
+  if $w and $h
+    margin-left: -($w/2)
+    margin-top: -($h/2)
+  else if $w
+    margin-left: -($w/2)
+    transform: translateY(-50%) @transform
+  else if $h
+    margin-top: -($h/2)
+    transform: translateX(-50%) @transform
+
+absCenterX($position = absolute)
+  $w = @width
+  position: $position
+  left: 50%
+  if $w
+    margin-left: -($w/2)
+  else
+    transform: translateX(-50%) @transform
+
+absCenterY($position = absolute)
+  $h = @height
+  position: $position
+  top: 50%
+  if $h
+    margin-top: -($h/2)
+  else
+    transform: translateY(-50%) @transform
+
+absCover($position = absolute)
+  position: $position
+  top: 0
+  bottom: 0
+  left: 0
+  right: 0
+
+psPosition($x = 0, $y = 0, $w, $h)
+  position: absolute
+  left: $x
+  top: $y
+  width: $w
+  height: $h
+
+vPercent($length)
+  designH = 1336px
+  ($length / designH * 100)%
+
+ratioFixedHeight($ratio = 1, $pos = 'after')
+  &:{$pos}
+    content: ' '
+    display: block
+    height: 0
+    padding-{$pos is 'before' ? top : bottom}: percentage($ratio)
+    {block}
+
+ph($value)
+  padding-left: $value
+  padding-right: $value
+
+pv($value)
+  padding-top: $value
+  padding-bottom: $value

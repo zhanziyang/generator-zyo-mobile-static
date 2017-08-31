@@ -1,0 +1,43 @@
+ps2rem($psl)
+  $per = 750 / 10
+  ($psl / $per) rem
+
+ellipsis($line = 1)
+  overflow-x: hidden
+  text-overflow: ellipsis
+  if $line > 1
+    overflow-y: hidden
+    display: -webkit-box
+    -webkit-line-clamp: $line
+    -webkit-box-orient: vertical
+  else
+    white-space: nowrap
+
+textClipOnBg($bg)
+  background: $bg
+  -webkit-background-clip: text
+  -webkit-text-fill-color: transparent
+
+avatar($url, $w = null)
+  border-radius: 50%
+  background: url($url) center/cover no-repeat
+  // $width = @width unless $w
+  if $w is defined and typeof($w) == 'unit'
+    $width = $w
+  else
+    $width = @width
+  $unit = unit($width)
+  if $unit == '%'
+    ratioFixedHeight(1)
+  else
+    height: $width
+
+// 参考资料：https://2012.heygrady.com/blog/2011/08/06/recreating-photoshop-drop-shadows-in-css3-and-compass/
+psShadow($color, $alpha, $angle, $distance, $spread, $size, $inset = false)
+  $angle = (180 - $angle) * PI / 180
+  $h-offset = round(cos($angle) * $distance)
+  $v-offset = round(sin($angle) * $distance)
+  $css-spread = ($size * $spread / 100)
+  $blur = $size - $css-spread
+  ($inset ? inset : null) $h-offset $v-offset $blur $css-spread alpha($color, $alpha)
+

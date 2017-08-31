@@ -1,40 +1,7 @@
 var generators = require('yeoman-generator')
 var initialPropmts = require('./initial_prompt')
-var mkdirp = require('mkdirp')
-var _ = require('underscore')
+var u = require('./utils')
 
-var copyTpl = function (tpl, dest, vars) {
-  var map = {}
-  vars.forEach(function (v) {
-    map[v] = this.answers[v]
-  }.bind(this))
-
-  this.fs.copyTpl(this.templatePath(tpl), this.destinationPath(dest), map)
-}
-
-var copyFiles = function (srcs, dests) {
-  if (!(_.isArray(srcs) && _.isArray(dests)) && !(_.isString(srcs) && _.isString(dests))) {
-    this.env.error('Argument type is wrong')
-    return
-  }
-  if (_.isString(srcs) && _.isString(dests)) {
-    srcs = [srcs]
-    dests = [dests]
-  }
-  if (srcs.length != dests.length) {
-    this.env.error('Invalid copy plan. You have ' + srcs.length + ' source file path' + (srcs.length > 1 ? 's' : '') + ' and ' + dests.length + ' destination file path' + (srcs.length > 1 ? 's' : '') + ' in your plan. Make sure they are equal!')
-    return
-  }
-  for (var i = 0; i < srcs.length; i++) {
-    this.fs.copy(this.templatePath(srcs[i]), this.destinationPath(dests[i]))
-  }
-}
-
-var mkdirs = function (dirs) {
-  for (var i = 0; i < dirs.length; i++) {
-    mkdirp.sync(this.destinationPath(dirs[i]))
-  }
-}
 
 module.exports = generators.Base.extend({
   constructor: function () {
@@ -42,8 +9,7 @@ module.exports = generators.Base.extend({
   },
 
   initializing: function () {
-    this.log('initializing...in ' + this.destinationRoot())
-    this.log('template in ' + this.sourceRoot())
+    this.log('此脚手架仅适用于移动端静态页面的开发')
   },
 
   prompting: function () {
@@ -55,7 +21,7 @@ module.exports = generators.Base.extend({
   },
 
   configuring: function () {
-    this.log('configuring...')
+    // this.log('configuring...')
   },
 
   default: function () {
@@ -63,62 +29,65 @@ module.exports = generators.Base.extend({
   },
 
   writing: function () {
+    this.log('开始生成基本文件目录')
+
     //创建基本目录结构
     var dirs = [
       'dist',
-      'src',
       'dist/css',
       'dist/images',
       'dist/js',
+      'dist/vendors',
+      'src',
       'src/css'
     ]
-    mkdirs.call(this, dirs)
+    u.mkdirs.call(this, dirs)
 
     //纯复制
     var pureCopies = {
       srcs: [
-        'dist/css/normalize.css',
-        'dist/js/app.js',
-        'src/css/!(util.css)',
-        '.eslintrc.json',
-        'jsconfig.json',
-        'package.json'
+        './!(localserver.js)',
+        'dist/**/!(index.html)',
+        'src/**/!(settings.styl)'
       ],
       dests: [
-        'dist/css/normalize.css',
-        'dist/js/app.js',
-        'src/css',
-        '.eslintrc.json',
-        'jsconfig.json',
-        'package.json'
+        './',
+        './dist',
+        './src'
       ]
     }
-    if (this.answers.$) {
-      pureCopies.srcs.push('dist/js/jquery-2.1.4.min.js')
-      pureCopies.dests.push('dist/js/jquery-2.1.4.min.js')
+    u.copyFiles.call(this, pureCopies.srcs, pureCopies.dests)
+
+    if (!this.answers.$) {
+      this.fs.delete('dist/vendors/jquery-2.1.4.min.js')
     }
-    if (this.answers.noBounce) {
-      pureCopies.srcs.push('dist/js/inobounce.js')
-      pureCopies.dests.push('dist/js/inobounce.js')
+    if (!this.answers.fastClick) {
+      this.fs.delete('dist/vendors/fastclick.js')
     }
-    copyFiles.call(this, pureCopies.srcs, pureCopies.dests)
 
     //复制模板
-    copyTpl.call(this, 'dist/index.html', 'dist/index.html', ['title', '$', 'accurateVW', 'vw', 'noBounce'])
-    copyTpl.call(this, 'src/css/util.styl', 'src/css/util.styl', ['vw', 'accurateVW'])
+    u.copyTpl.call(this, './localserver.js', './localserver.js', ['proxy'])
+    u.copyTpl.call(this, 'dist/index.html', 'dist/index.html', ['$', 'fastClick'])
+    u.copyTpl.call(this, 'src/css/utils/settings.styl', 'src/css/utils/settings.styl', ['psWidth', 'bgColor'])
+
+    this.log('目录结构生成完毕')
   },
 
   install: function () {
+    this.log('配置 npm 的 package.json...')
     this.spawnCommandSync('npm', ['init'], {
       yes: true
     })
+    this.log('npm 配置完毕')
+    this.log('开始安装开发依赖...')
     this.spawnCommandSync('npm', ['install'])
-    this.log('The party is getting started...')
+    this.log('开发依赖安装完毕')
+    this.log('启动中...')
     this.spawnCommandSync('npm', ['start'])
   },
 
   end: function () {
-    this.log('THE END')
+    this.log('再见！下次要启动时，请直接运行 npm start')
   }
 
 })

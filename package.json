@@ -1,7 +1,7 @@
 {
   "name": "generator-zyo-mobile-static",
   "version": "0.2.0",
-  "description": "Yeoman Generator for  mobile websites. This is totally customized for personal use.",
+  "description": "用于快速生成H5静态页面开发脚手架的 Yoeman generator。个人开发使用，通用性不强。",
   "author": "zhanziyang",
   "files": [
     "generators/app"

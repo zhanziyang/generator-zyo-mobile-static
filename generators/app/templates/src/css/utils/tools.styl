@@ -1,6 +1,6 @@
-ps2rem($psl)
-  $per = 750 / 10
-  ($psl / $per) rem
+flexible($psl)
+  $per = $design-width / 10
+  <% if (flexPlan == 'rem') { %>($psl / $per) rem<% } else if (flexPlan == 'autoFlex') { %>unit($psl, 'px')<% } else { %>unit(($psl / $per) * 10, 'vw')<% } %>
 
 ellipsis($line = 1)
   overflow-x: hidden

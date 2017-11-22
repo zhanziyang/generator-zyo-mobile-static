@@ -33,7 +33,9 @@ gulp.task('style', ['clean-css-dest'], () => {
     return gulp
       .src('./src/css/*.styl')
       .pipe(plumber({ errorHandler: onError }))
+      <% if (sourcemap) { %>
       .pipe(sourcemaps.init())
+      <% } %>
       .pipe(stylus({
         // warn: true,
         use: [axis()],
@@ -55,15 +57,19 @@ gulp.task('style', ['clean-css-dest'], () => {
           'ie_mob >= 10'
         ]
       })]))
+      <% if (sourcemap) { %>
       .pipe(sourcemaps.write('maps'))
+      <% } %>
       .pipe(gulp.dest('./dist/css'))
       .pipe(reload({ stream: true }))
       .pipe(filter('**/*.css'))
+      <% if (minify) { %>
       .pipe(postcss([cssnano()]))
       .pipe(rename({
         suffix: '.min'
       }))
       .pipe(gulp.dest('./dist/css/min'))
+      <% } %>
   })).on('error', onError)
 })
 
@@ -79,7 +85,7 @@ gulp.task('server', ['style'], () => {
       ws: false // websocket
     },
     serveStatic: ['./dist'],
-    port: 3000,
+    port: <%=port %>,
     watchOptions: {
       ignored: '*.map'
     }

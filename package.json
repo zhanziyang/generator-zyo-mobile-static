@@ -16,5 +16,11 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/zhanziyang/generator-zyo-mobile-static.git"
+  },
+  "devDependencies": {
+    "yeoman-test": "^1.7.0"
+  },
+  "scripts": {
+    "test": ""
   }
 }

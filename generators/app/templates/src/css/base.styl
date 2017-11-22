@@ -4,8 +4,14 @@ body
   position: relative
 
 .box
-  width: ps2rem(375px)
+  width: flexible(375)
   background: blue
   absCenter()
   avatar('http://stylus-lang.com/img/stylus-logo.svg')
-  box-shadow: psShadow(black, 75%, 90, 0px, 10, 40px), psShadow(grey, 65%, 60, 2px, 10, 170px, true)
+  box-shadow: psShadow(black, 75%, 90, 0px, flexible(10), flexible(40)), psShadow(grey, 65%, 60, flexible(2), flexible(10), flexible(170), true)
+
+p.hello
+  absCenter()
+  margin-top flexible(-300)
+  padding flexible(10)
+  border 1px solid

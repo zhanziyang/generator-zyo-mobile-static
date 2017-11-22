@@ -46,9 +46,9 @@ module.exports = generators.Base.extend({
     //纯复制
     var pureCopies = {
       srcs: [
-        './!(localserver.js)',
-        'dist/**/!(index.html)',
-        'src/**/!(settings.styl)'
+        './!(localserver.js|gulpfile.babel.js)',
+        'dist/**/!(index.html|app.js)',
+        'src/**/!(settings.styl|tools.styl)'
       ],
       dests: [
         './',
@@ -66,9 +66,12 @@ module.exports = generators.Base.extend({
     }
 
     //复制模板
+    u.copyTpl.call(this, 'dist/js/app.js', 'dist/js/app.js', ['fastClick', 'flexPlan', 'scaleViewport', 'limitWidthOnPC', 'pcMinWidth', 'widthOnPC', 'psWidth'])
     u.copyTpl.call(this, './localserver.js', './localserver.js', ['proxy'])
+    u.copyTpl.call(this, './gulpfile.babel.js', './gulpfile.babel.js', ['minify', 'sourcemap', 'port'])
     u.copyTpl.call(this, 'dist/index.html', 'dist/index.html', ['$', 'fastClick'])
-    u.copyTpl.call(this, 'src/css/utils/settings.styl', 'src/css/utils/settings.styl', ['psWidth', 'bgColor'])
+    u.copyTpl.call(this, 'src/css/utils/settings.styl', 'src/css/utils/settings.styl', ['psWidth', 'bgColor', 'pcMinWidth', 'widthOnPC'])
+    u.copyTpl.call(this, 'src/css/utils/tools.styl', 'src/css/utils/tools.styl', ['flexPlan'])
 
     this.log('目录结构生成完毕')
   },
